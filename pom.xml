@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ead</groupId>
-	<artifactId>course</artifactId>
+	<artifactId>course-ms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>course</name>
 	<description>course</description>
