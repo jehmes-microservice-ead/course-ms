@@ -36,7 +36,7 @@ public class CourseController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found");
         }
         courseService.delete(courseModelOptional.get());
-        return ResponseEntity.status(HttpStatus.OK).body("Course delete successfully");
+        return ResponseEntity.status(HttpStatus.OK).body("Course deleted successfully");
     }
 
     @PutMapping("/{courseId}")
@@ -52,7 +52,6 @@ public class CourseController {
         courseModel.setImageurl(courseDto.getImageurl());
         courseModel.setCourseStatus(courseDto.getCourseStatus());
         courseModel.setCourseLevel(courseDto.getCourseLevel());
-//        BeanUtils.copyProperties(courseDto, courseModel); //testar
         return ResponseEntity.status(HttpStatus.OK).body(courseService.save(courseModelOptional.get()));
     }
 
