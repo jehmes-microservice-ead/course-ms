@@ -14,7 +14,7 @@ import java.util.UUID;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
-@Table(name = "TB_LESSON")
+@Table(name = "TB_LESSONS")
 public class LessonModel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
