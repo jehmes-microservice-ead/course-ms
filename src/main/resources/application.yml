@@ -19,6 +19,8 @@ spring:
     properties:
       hibernate:
         show_sql: true
+  rabbitmq:
+    addresses: amqps://zjxwabag:SKvK6q_BEFGfuOxIe1F2AUs33sHFBUaW@armadillo.rmq.cloudamqp.com/zjxwabag
 
 logging:
   level:
