@@ -37,7 +37,7 @@ public class CourseController {
     public ResponseEntity<Object> saveCourse(@RequestBody CourseDto courseDto, Errors errors) {
         log.debug("POST saveCourse courseDto received {} ", courseDto.toString());
         courseValidator.validate(courseDto, errors);
-        if(errors.hasErrors()) {
+        if (errors.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors.getAllErrors());
         }
         var courseModel = new CourseModel();
@@ -48,7 +48,7 @@ public class CourseController {
     }
 
     @DeleteMapping("/{courseId}")
-    public ResponseEntity<Object> deleteCourse(@PathVariable(value = "courseId")UUID courseId) {
+    public ResponseEntity<Object> deleteCourse(@PathVariable(value = "courseId") UUID courseId) {
         log.debug("DELETE deleteCourse courseId received {} ", courseId);
         Optional<CourseModel> courseModelOptional = courseService.findById(courseId);
         if (courseModelOptional.isEmpty()) {
@@ -61,8 +61,8 @@ public class CourseController {
     }
 
     @PutMapping("/{courseId}")
-    public ResponseEntity<Object> updateCourse(@PathVariable(value = "courseId")UUID courseId,
-                                                @RequestBody @Valid CourseDto courseDto) {
+    public ResponseEntity<Object> updateCourse(@PathVariable(value = "courseId") UUID courseId,
+                                               @RequestBody @Valid CourseDto courseDto) {
         log.debug("PUT updateCourse courseDto received {} ", courseDto.toString());
         Optional<CourseModel> courseModelOptional = courseService.findById(courseId);
         if (courseModelOptional.isEmpty()) {
