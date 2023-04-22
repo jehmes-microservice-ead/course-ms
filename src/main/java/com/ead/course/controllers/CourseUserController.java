@@ -4,6 +4,7 @@ import com.ead.course.dtos.SubscriptionDto;
 import com.ead.course.enums.UserStatus;
 import com.ead.course.models.CourseModel;
 import com.ead.course.models.UserModel;
+import com.ead.course.publishers.NotificationCommandPublisher;
 import com.ead.course.services.CourseService;
 import com.ead.course.services.UserService;
 import com.ead.course.specifications.SpecificationTemplate;
@@ -25,10 +26,14 @@ import java.util.UUID;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class CourseUserController {
 
-    @Autowired
     private CourseService courseService;
-    @Autowired
     private UserService userService;
+
+    @Autowired
+    public CourseUserController(CourseService courseService, UserService userService) {
+        this.courseService = courseService;
+        this.userService = userService;
+    }
 
     @GetMapping("/courses/{courseId}/users")
     public ResponseEntity<Object> getAllUsersByCourse(SpecificationTemplate.UserSpec spec,
@@ -58,7 +63,7 @@ public class CourseUserController {
         if (userModelOptional.get().getUserStatus().equals(UserStatus.BLOCKED.toString())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("User is blocked");
         }
-        courseService.saveSubscriptionUserInCourse(courseModelOptional.get().getCourseId(), userModelOptional.get().getUserId());
+        courseService.saveSubscriptionUserInCourseAndSendNotification(courseModelOptional.get(), userModelOptional.get());
         return ResponseEntity.status(HttpStatus.CREATED).body("Subscription created successfully!");
     }
 }
