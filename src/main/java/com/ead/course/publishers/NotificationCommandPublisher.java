@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class NotificationCommandPublisher {
 
-    private RabbitTemplate rabbitTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
     public NotificationCommandPublisher(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
