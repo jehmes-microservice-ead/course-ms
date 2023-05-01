@@ -1,11 +1,12 @@
 package com.ead.course.validations;
 
+import com.ead.course.configs.security.AuthenticationCurrentUserService;
 import com.ead.course.dtos.CourseDto;
 import com.ead.course.enums.UserType;
 import com.ead.course.models.UserModel;
 import com.ead.course.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -19,9 +20,12 @@ public class CourseValidator implements Validator {
     private final UserService userService;
     private final Validator validator;
 
-    public CourseValidator(@Qualifier("defaultValidator") Validator validator, UserService userService) {
+    private final AuthenticationCurrentUserService authenticationCurrentUserService;
+
+    public CourseValidator(@Qualifier("defaultValidator") Validator validator, UserService userService, AuthenticationCurrentUserService authenticationCurrentUserService) {
         this.validator = validator;
         this.userService = userService;
+        this.authenticationCurrentUserService = authenticationCurrentUserService;
     }
 
     @Override
@@ -39,6 +43,10 @@ public class CourseValidator implements Validator {
     }
 
     private void validateUserInstructor(UUID userInstructorId, Errors errors) {
+        UUID currentUserId = authenticationCurrentUserService.getCurrentUser().getUserId();
+        if (!currentUserId.equals(userInstructorId)) {
+            throw new AccessDeniedException("Forbidden");
+        }
         Optional<UserModel> userModelOptional = userService.findById(userInstructorId);
         if (userModelOptional.isEmpty()) {
             errors.rejectValue("userInstructor", "UserInstructorError", "Instructor not found.");
